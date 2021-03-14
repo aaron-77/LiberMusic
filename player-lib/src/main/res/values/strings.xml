@@ -23,5 +23,7 @@ limitations under the License. -->
   <string name="user_hint">Usuario</string>
   <string name="password_hint">Password</string>
   <string name="title_login">LiberMusic</string>
+  <string name="text_button_login">Iniciar sesion</string>
+
 
 </resources>
