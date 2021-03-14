@@ -22,7 +22,7 @@
             android:id="@+id/buscador_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#3E57E3"
+            android:background="#515151"
             android:ellipsize="none"
             android:fontFamily="serif"
             android:hint="@string/text_buscador_hint"
