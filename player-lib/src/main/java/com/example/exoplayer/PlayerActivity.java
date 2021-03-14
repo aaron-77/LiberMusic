@@ -15,11 +15,11 @@
  */
 package com.example.exoplayer;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -91,11 +91,11 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     playerView.setPlayer(player);
-
     MediaItem mediaItem = new MediaItem.Builder()
             .setUri(getString(R.string.media_url_dash))
             .setMimeType(MimeTypes.APPLICATION_MPD)
             .build();
+    player.setMediaItem(mediaItem);
 
     player.setPlayWhenReady(playWhenReady);
     player.seekTo(currentWindow, playbackPosition);
@@ -115,10 +115,10 @@ public class PlayerActivity extends AppCompatActivity {
   @SuppressLint("InlinedApi")
   private void hideSystemUi() {
     playerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
-            | View.SYSTEM_UI_FLAG_FULLSCREEN
-            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        | View.SYSTEM_UI_FLAG_FULLSCREEN
+        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
   }
 }
