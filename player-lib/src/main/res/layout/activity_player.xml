@@ -35,6 +35,7 @@ limitations under the License. -->
 
   </FrameLayout>
 
+
   <LinearLayout
       android:id="@+id/layoutBarraMenuInferior"
       android:layout_width="match_parent"
@@ -42,9 +43,9 @@ limitations under the License. -->
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/frameLayout">
 
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
-        style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:menu="@layout/barra_menu_inferior" />

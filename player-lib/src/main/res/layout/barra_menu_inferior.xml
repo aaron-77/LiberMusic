@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     >
+    <!--
+    Se comenta por error al referenciar iconos que aun no se suben
     <item
         android:id="@+id/page_1"
         android:enabled="true"
@@ -24,4 +26,5 @@
         android:enabled="true"
         android:icon="@drawable/ic_new"
         android:title="@string/news"/>
+        -->
 </menu>
