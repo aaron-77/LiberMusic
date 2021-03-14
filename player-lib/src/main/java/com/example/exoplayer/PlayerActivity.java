@@ -29,7 +29,7 @@ import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.Util;
 
 /**
- * A fullscreen activity to play audio or video streams.
+ * A fullscreen activity to play audio or video streams. 
  */
 public class PlayerActivity extends AppCompatActivity {
 
