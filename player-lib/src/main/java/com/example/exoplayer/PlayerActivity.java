@@ -17,8 +17,10 @@ package com.example.exoplayer;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.exoplayer2.MediaItem;
@@ -27,6 +29,7 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.Util;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 /**
  * A fullscreen activity to play audio or video streams. 
@@ -38,6 +41,7 @@ public class PlayerActivity extends AppCompatActivity {
   private boolean playWhenReady = true;
   private int currentWindow = 0;
   private long playbackPosition = 0;
+  private BottomNavigationView barraDeNavegacion;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,27 @@ public class PlayerActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_player);
     playerView = findViewById(R.id.video_view);
+    barraDeNavegacion = findViewById(R.id.bottom_navigation);
+    barraDeNavegacion.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+      @Override
+      public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int idMenuItemSeleccionado=menuItem.getItemId();
+        int menuPagina1= R.id.page_1;
+        boolean isSelected= false;
+        if (idMenuItemSeleccionado == R.id.page_1) {
+            System.out.println(isSelected);
+          isSelected= true;
+        } else if (idMenuItemSeleccionado == R.id.page_2) {
+
+        isSelected= true;
+        }else{
+
+          isSelected= true;
+        }
+        return isSelected;
+      }
+
+      });
 
   }
 
