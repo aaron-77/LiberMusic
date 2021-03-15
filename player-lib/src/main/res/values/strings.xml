@@ -25,6 +25,9 @@ limitations under the License. -->
   <string name="title_login">LiberMusic</string>
   <string name="text_button_login">Iniciar sesion</string>
   <string name="text_buscador_hint">Buscar</string>
+  <string name="text_icon_reproductor">reproductor</string>
+  <string name="text_icon_playlists">playlists</string>
+  <string name="text_icon_search">search</string>
 
 
 </resources>

@@ -41,10 +41,11 @@ public class PlayerActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_player);
-
     playerView = findViewById(R.id.video_view);
+
   }
 
   @Override

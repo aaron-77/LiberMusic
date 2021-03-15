@@ -4,27 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     >
-    <!--
-    Se comenta por error al referenciar iconos que aun no se suben
+
     <item
         android:id="@+id/page_1"
         android:enabled="true"
-        android:icon="@drawable/ic_favorite"
-        android:title="@string/favorites"/>
+        android:icon="@drawable/ic_baseline_play_arrow_24"
+        android:title="@string/text_icon_reproductor"/>
     <item
         android:id="@+id/page_2"
         android:enabled="true"
-        android:icon="@drawable/ic_music"
-        android:title="@string/music"/>
+        android:icon="@drawable/ic_baseline_playlist_play_24"
+        android:title="@string/text_icon_playlists"/>
     <item
         android:id="@+id/page_3"
         android:enabled="true"
-        android:icon="@drawable/ic_places"
-        android:title="@string/places"/>
-    <item
-        android:id="@+id/page_4"
-        android:enabled="true"
-        android:icon="@drawable/ic_new"
-        android:title="@string/news"/>
-        -->
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="@string/text_icon_search"/>
+
 </menu>
