@@ -27,3 +27,12 @@ C:\Users\jhoni\Documents\Proyecto redes\db\MSListasDeReproduccion\obj\Debug\net5
 C:\Users\jhoni\Documents\Proyecto redes\db\MSListasDeReproduccion\obj\Debug\net5.0\ref\MSListasDeReproduccion.dll
 C:\Users\jhoni\Documents\Proyecto redes\db\MSListasDeReproduccion\obj\Debug\net5.0\MSListasDeReproduccion.pdb
 C:\Users\jhoni\Documents\Proyecto redes\db\MSListasDeReproduccion\obj\Debug\net5.0\MSListasDeReproduccion.genruntimeconfig.cache
+C:\Users\jhoni\Documents\Proyecto redes\db\MSListasDeReproduccion\bin\Debug\net5.0\Humanizer.dll
+C:\Users\jhoni\Documents\Proyecto redes\db\MSListasDeReproduccion\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\jhoni\Documents\Proyecto redes\db\MSListasDeReproduccion\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\jhoni\Documents\Proyecto redes\db\MSListasDeReproduccion\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\jhoni\Documents\Proyecto redes\db\MSListasDeReproduccion\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\jhoni\Documents\Proyecto redes\db\MSListasDeReproduccion\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\jhoni\Documents\Proyecto redes\db\MSListasDeReproduccion\bin\Debug\net5.0\MySqlConnector.dll
+C:\Users\jhoni\Documents\Proyecto redes\db\MSListasDeReproduccion\bin\Debug\net5.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\Users\jhoni\Documents\Proyecto redes\db\MSListasDeReproduccion\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll
