@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MSListasDeReproduccion.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace MSListasDeReproduccion.Controllers
 {
@@ -14,6 +15,7 @@ namespace MSListasDeReproduccion.Controllers
     public class MSListasDeReproduccionController : ControllerBase
     {
         private libermusiclistasdereproduccionContext dbcontext;
+        private readonly ILogger<MSListasDeReproduccionController> log;
 
         public MSListasDeReproduccionController()
         {
@@ -40,7 +42,85 @@ namespace MSListasDeReproduccion.Controllers
             }
         }
 
-      
+
+        [HttpGet("buscar")]
+        public async Task<ActionResult<Listasdereproduccion>> Search([FromQuery] int id = -1, [FromQuery] string nombre = "")
+        {
+
+
+            if (id > -1)
+            {
+
+                Validaciones.Validaciones check = new Validaciones.Validaciones();
+
+                if (check.ValidarNúmero(id.ToString()) == Validaciones.Validaciones.ResultadosValidacion.NúmeroVálido)
+                {
+                    List<Listasdereproduccion> listas = null;
+
+                    listas = await dbcontext.Listasdereproduccions
+                        .Where(lista => lista.Nombre.Contains(nombre))
+                        .Where(lista => (id >= 0 && lista.Id == id) ||
+                        (id < 0 && lista.Id != id))
+                        .ToListAsync();
+
+                    if (listas == null)
+                    {
+                        return BadRequest();
+                    }
+
+                    return Ok(listas);
+                }
+                else
+                {
+                    return BadRequest("No es un id valido");
+                }
+            }
+            else
+            {
+                return BadRequest("no ingresó un id para buscar");
+            }
+        }
+
+        [HttpPut("Eliminar")]
+        public async Task<ActionResult<Listasdereproduccion>> delete([FromBody] int id =-1)
+        {
+            if (id > -1)
+            {
+                Validaciones.Validaciones check = new Validaciones.Validaciones();
+
+
+                if (check.ValidarNúmero(id.ToString()) == Validaciones.Validaciones.ResultadosValidacion.NúmeroVálido)
+                {
+
+
+                    var query = (from p in dbcontext.Listasdereproduccions
+                                 where p.Id == id
+                                 select p).Single();
+                    try
+                    {
+                        dbcontext.Remove(query);
+                        await dbcontext.SaveChangesAsync();
+                        log.LogInformation("se eliminó el registro con el id: {0}", id);
+                        return Ok();
+                    }
+                    catch (Exception ex)
+                    {
+                        log.LogError("Ocurrio un problema:\n" + ex.Message);
+                        return BadRequest(ex);
+
+                    }
+                }
+                else
+                {
+                    return BadRequest("el id no es valido");
+                }
+            }
+            else {
+                return BadRequest("no ingresó un id para buscar");
+            }
+        }
+
+
 
 
 
