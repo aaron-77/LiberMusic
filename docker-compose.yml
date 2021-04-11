@@ -3,21 +3,21 @@ version: '3.9'
 services:
     # Bases de datos
     
-    mysql_suscripcion:
-        image: mysql/mysql-server:latest
-        ports:
-            - "3310:3306"
-        restart: always
-        volumes:
-            - db_volume_suscripcion:/var/lib/mysql
-            - ../db/bdusuarios.sql:/docker-entrypoint-initdb.d/bdusuarios.sql:ro
-        command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_0900_ai_ci']
-        environment: 
-            MYSQL_ROOT_PASSWORD: "root"
-            MYSQL_HOST: localhost
-            MYSQL_DATABASE: "libermusicusuarios"
-            MYSQL_USER: "root"
-        container_name: db_suscripcion
+  # mysql_suscripcion:
+  #      image: mysql/mysql-server:latest
+  #      ports:
+  #          - "3310:3306"
+  #      restart: always
+  #      volumes:
+  #          - db_volume_suscripcion:/var/lib/mysql
+  #          - ../db/bdusuarios2.sql:/docker-entrypoint-initdb.d/bdusuarios2.sql:ro
+  #      command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_0900_ai_ci']
+  #      environment: 
+  #          MYSQL_ROOT_PASSWORD: "root"
+  #          MYSQL_HOST: localhost
+  #          MYSQL_DATABASE: "libermusicusuarios"
+  #          MYSQL_USER: "root"
+  #      container_name: db_suscripcion
 
     mysql_musica:
         image: mysql/mysql-server:latest
@@ -26,7 +26,7 @@ services:
         restart: always
         volumes:
             - db_volume_musica:/var/lib/mysql
-            - ../db/bdmusica.sql:/docker-entrypoint-initdb.d/bdmusica.sql:ro
+            - ../db/bdmusica2.sql:/docker-entrypoint-initdb.d/bdmusica2.sql:ro
         command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_0900_ai_ci']
         environment: 
             MYSQL_ROOT_PASSWORD: "root"
@@ -35,34 +35,34 @@ services:
             MYSQL_USER: "root"
         container_name: db_musica
 
-    mysql_listas_de_reproduccion:
-        image: mysql/mysql-server:latest
-        ports:
-            - "3312:3306"
-        restart: always
-        volumes:
-            - db_volume_listas_de_reproduccion:/var/lib/mysql
-            - ../db/bdlistasdereproduccion.sql:/docker-entrypoint-initdb.d/bdlistasdereproduccion.sql:ro
-        command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_0900_ai_ci']
-        environment: 
-            MYSQL_ROOT_PASSWORD: "root"
-            MYSQL_HOST: localhost
-            MYSQL_DATABASE: "libermusiclistasdereproduccion"
-            MYSQL_USER: "root"
-        container_name: db_listas_de_reproduccion
+    #mysql_multimedia:
+    #    image: mysql/mysql-server:latest
+    #    ports:
+    #        - "3312:3306"
+    #    restart: always
+    #    volumes:
+    #        - db_volume_multimedia:/var/lib/mysql
+    #        - ../db/bdmultimedia.sql:/docker-entrypoint-initdb.d/bdmultimedia.sql:ro
+    #    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_0900_ai_ci']
+    #    environment: 
+    #        MYSQL_ROOT_PASSWORD: "root"
+    #        MYSQL_HOST: localhost
+    #        MYSQL_DATABASE: "libermusicmultimedia"
+    #        MYSQL_USER: "root"
+    #    container_name: db_multimedia
 
-     #Microservicios
-    ms_suscripcion:
-        image: ms_suscripcion_libermusic
-        depends_on: 
-            - "mysql_suscripcion"
-        ports:
-            - "8090:80"
-        build: 
-            context: ../MSSuscripcion/
-            dockerfile: Dockerfile
-        environment: 
-            DB_CONNECTION_STRING: "server=mysql_suscripcion;user=admin;password=admin;database=libermusicusuarios"
+    # Microservicios
+    # ms_suscripcion:
+    #    image: ms_suscripcion_libermusic
+    #    depends_on: 
+    #        - "mysql_suscripcion"
+    #    ports:
+    #        - "8090:80"
+    #    build: 
+    #        context: ../MSSuscripcion/
+    #        dockerfile: Dockerfile
+    #    environment: 
+    #        DB_CONNECTION_STRING: "server=mysql_suscripcion;user=admin;password=admin;database=libermusicusuarios"
             
     # ms_compras:
     #    image: ms_compras_uv
@@ -104,4 +104,4 @@ services:
 volumes:
     db_volume_suscripcion:
     db_volume_musica:
-    db_volume_listas_de_reproduccion:
+    #db_volume_multimedia:
