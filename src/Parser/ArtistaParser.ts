@@ -1,34 +1,43 @@
+import { Album } from "../entity/Album";
 import {Artista} from "../entity/Artista";
+import {AlbumParser} from "./AlbumesParser";
 
 
 export class ArtistaParser{
 
-    static jsonToArtista(datosArista):Artista{
+    static jsonToArtista(datosArtista):Artista{
        
         let artista = new Artista();
-        artista.id = datosArista.id;
-        artista.nombre = datosArista.nombre;
-        artista.nombreArtistico = datosArista.nombreArtistico;
-        artista.fechaDeNacimiento = datosArista.fechaDeNacimiento;
-        artista.web = datosArista.web;
-        artista.estado = datosArista.estado;
-        artista.nacionalidad = datosArista.nacionalidad;
-
+        artista.id = datosArtista.id;
+        artista.nombre = datosArtista.nombre;
+        artista.nombreArtistico = datosArtista.nombreArtistico;
+        artista.anoDeNacimiento = datosArtista.fechaDeNacimiento;
+        artista.web = datosArtista.web;
+        artista.fkIdEstatus = datosArtista.fkIdEstatus;
+        artista.nacionalidad = datosArtista.nacionalidad;
+        if(datosArtista.albumes != (null || undefined)){
+            datosArtista.albumes.forEach(album => {
+                let albumParsed = AlbumParser.jsonToAlbum(album);
+                artista.albumes.push(albumParsed);
+            });
+        }
+       
+           
         return artista;
     }
 
     static artistaToJson(artista:Artista){
         let artistaJson ={
-            id:artista.id,
-            nombre:artista.nombre,
-            nombreArtistico:artista.nombreArtistico,
-            fechaDeNacimiento:artista.fechaDeNacimiento,
-            web:artista.web,
-            estado:artista.estado,
-            nacionalidad:artista.nacionalidad
-        }
+                id:artista.id,
+                nombre:artista.nombre,
+                nombreArtistico:artista.nombreArtistico,
+                anoDeNacimiento:artista.anoDeNacimiento,
+                web:artista.web,
+                fkIdEstatus:artista.fkIdEstatus,
+                nacionalidad:artista.nacionalidad,
+                albumes: artista.albumes 
+            }
 
-        return artistaJson;
-    }
-
+            return artistaJson;
+        }    
 }
