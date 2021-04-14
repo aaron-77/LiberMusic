@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MSListasDeReproduccion.Models;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -14,14 +14,14 @@ namespace MSListasDeReproduccion.Controllers
     [ApiController]
     public class MSListasDeReproduccionController : ControllerBase
     {
-        private libermusiclistasdereproduccionContext dbcontext;
+       /* private libermusiclistasdereproduccionContext dbcontext;
         private readonly ILogger<MSListasDeReproduccionController> log;
 
         public MSListasDeReproduccionController()
         {
             dbcontext = new libermusiclistasdereproduccionContext();
         }
-
+        //Arreglando los metodos para las listas de reproduccion
         [HttpPost("CrearLista")]
         public async Task<ActionResult<Listasdereproduccion>> add([FromBody] Listasdereproduccion listaReproduccion) {
             if (listaReproduccion == null)
@@ -118,7 +118,7 @@ namespace MSListasDeReproduccion.Controllers
             else {
                 return BadRequest("no ingresó un id para buscar");
             }
-        }
+        }*/
 
 
 
