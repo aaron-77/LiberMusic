@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using MSListasDeReproduccion.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -14,14 +14,17 @@ namespace MSListasDeReproduccion.Controllers
     [ApiController]
     public class MSListasDeReproduccionController : ControllerBase
     {
-       /* private libermusiclistasdereproduccionContext dbcontext;
+       private libermusicmusicaContext dbcontext;
         private readonly ILogger<MSListasDeReproduccionController> log;
 
         public MSListasDeReproduccionController()
         {
-            dbcontext = new libermusiclistasdereproduccionContext();
+            dbcontext = new libermusicmusicaContext();
         }
         //Arreglando los metodos para las listas de reproduccion
+
+
+
         [HttpPost("CrearLista")]
         public async Task<ActionResult<Listasdereproduccion>> add([FromBody] Listasdereproduccion listaReproduccion) {
             if (listaReproduccion == null)
@@ -43,25 +46,14 @@ namespace MSListasDeReproduccion.Controllers
         }
 
 
-        [HttpGet("buscar")]
-        public async Task<ActionResult<Listasdereproduccion>> Search([FromQuery] int id = -1, [FromQuery] string nombre = "")
+        [HttpGet("buscarLista")]
+        public async Task<ActionResult<Listasdereproduccion>> Search([FromQuery] string nombre = "", [FromQuery] string idUsuario="")
         {
-
-
-            if (id > -1)
-            {
-
-                Validaciones.Validaciones check = new Validaciones.Validaciones();
-
-                if (check.ValidarNúmero(id.ToString()) == Validaciones.Validaciones.ResultadosValidacion.NúmeroVálido)
-                {
+                          
                     List<Listasdereproduccion> listas = null;
 
                     listas = await dbcontext.Listasdereproduccions
-                        .Where(lista => lista.Nombre.Contains(nombre))
-                        .Where(lista => (id >= 0 && lista.Id == id) ||
-                        (id < 0 && lista.Id != id))
-                        .ToListAsync();
+                        .Where(lista => lista.Nombre.Contains(nombre)).Where(lista => lista.FkIdUsuario.Equals(idUsuario)).ToListAsync();
 
                     if (listas == null)
                     {
@@ -69,56 +61,78 @@ namespace MSListasDeReproduccion.Controllers
                     }
 
                     return Ok(listas);
-                }
-                else
-                {
-                    return BadRequest("No es un id valido");
-                }
+               
             }
-            else
+
+
+        [HttpPut("ActualizarLista")]
+        public async Task<ActionResult<Listasdereproduccion>> update([FromBody] Listasdereproduccion lista)
+        {
+            if (lista == null)
             {
-                return BadRequest("no ingresó un id para buscar");
+                log.LogError("No se encontro la lista a actualizar");
+                return BadRequest("lista de reproduccion no encontrada");
+            }
+
+            try
+            {
+                var milista = dbcontext.Listasdereproduccions.SingleOrDefault(c => c.Id.Equals(lista.Id));
+                milista= lista;
+                await dbcontext.SaveChangesAsync();
+
+                log.LogInformation("Se actualizo la lista: {0}", lista.Nombre);
+                return Ok(lista);
+            }
+            catch (Exception ex)
+            {
+                log.LogError("Ocurrio un problema:\n" + ex.Message);
+                return BadRequest(ex);
             }
         }
 
-        [HttpPut("Eliminar")]
-        public async Task<ActionResult<Listasdereproduccion>> delete([FromBody] int id =-1)
+
+
+        [HttpPut("EliminarCancion")]
+        public async Task<ActionResult<Cancioneslistasdereproduccion>> update([FromBody] string idlista,string idcancion)
         {
-            if (id > -1)
+           
+
+            try
             {
-                Validaciones.Validaciones check = new Validaciones.Validaciones();
+                var micancionlista = dbcontext.Cancioneslistasdereproduccions.SingleOrDefault(c => c.FkIdCancion.Equals(idcancion) && c.FlIdListaDeReproduccion.Equals(idlista));
+                micancionlista.FkIdEstatus = 2;
+               
+                await dbcontext.SaveChangesAsync();
 
-
-                if (check.ValidarNúmero(id.ToString()) == Validaciones.Validaciones.ResultadosValidacion.NúmeroVálido)
-                {
-
-
-                    var query = (from p in dbcontext.Listasdereproduccions
-                                 where p.Id == id
-                                 select p).Single();
-                    try
-                    {
-                        dbcontext.Remove(query);
-                        await dbcontext.SaveChangesAsync();
-                        log.LogInformation("se eliminó el registro con el id: {0}", id);
-                        return Ok();
-                    }
-                    catch (Exception ex)
-                    {
-                        log.LogError("Ocurrio un problema:\n" + ex.Message);
-                        return BadRequest(ex);
-
-                    }
-                }
-                else
-                {
-                    return BadRequest("el id no es valido");
-                }
+                log.LogInformation("Se actualizo la lista: {0}", idcancion);
+                return Ok();
             }
-            else {
-                return BadRequest("no ingresó un id para buscar");
+            catch (Exception ex)
+            {
+                log.LogError("Ocurrio un problema:\n" + ex.Message);
+                return BadRequest(ex);
             }
-        }*/
+        }
+
+
+
+        //Regresar las caciones solamente.
+        [HttpGet("MostrarCanciones")]
+        public async Task<ActionResult<Cancioneslistasdereproduccion>> Search([FromQuery] string idLista="")
+        {
+
+            List<Cancioneslistasdereproduccion> canciones = null;
+
+            canciones = await dbcontext.Cancioneslistasdereproduccions.Where(cancion => cancion.FlIdListaDeReproduccion.Equals(idLista)).ToListAsync();
+
+            if (canciones == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(canciones);
+
+        }
 
 
 
