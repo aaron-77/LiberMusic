@@ -5,26 +5,22 @@ import {CancionesRepository} from "./bd/controllersBd/CancionesRepository";
 import {ArtistaParser} from "./Parser/ArtistaParser";
 import {AlbumParser} from "./Parser/AlbumesParser";
 import {CancionParser} from "./Parser/CancionParser"
-import {Artista} from "./entity/Artista";
+import {Artista} from "./bd/entity/Artista";
 import * as aplicattion from "./app";
 import {createConnection} from "typeorm";
 import { format } from "url";
-var express = require('express');
-var app = express();
-var path = require('path');
+import {v4 as uuidv4} from "uuid"
+import app from "./app";
+
 var http = require('http');
 var https = require('https');
 
 
-let server = http.createServer();
+
+let server = http.createServer(app);
 const port = 4001;
 const ip = 'localhost';
 
-
- async function crearConexion() {
-   
-
- } 
 server.listen(port, ip, function () {
  
     let artistaRepository = new ArtistasRepository();
@@ -178,19 +174,25 @@ let artistaJsonUpdate = {
          console.log(reason); // Error!
        }); */
 
-       let cancionesDeListaDeReproduccion = cancionRepository.obtenerCancionesDeListaDeReproduccion(["1","9e972bdd-96c3-4350-b106-5fcd8160e9e6"]);
+       /* let cancionesDeListaDeReproduccion = cancionRepository.obtenerCancionesDeListaDeReproduccion(["1","9e972bdd-96c3-4350-b106-5fcd8160e9e6"]);
        cancionesDeListaDeReproduccion.then(function(value) {
                 value.forEach(cancion => console.log("CANCIONES LISTAS DE REPRO: "+ cancion.titulo));
         }, function(reason) {
                 console.log(reason); // Error!
         });
+        */
 
+       /*  let servicioartistas = new ServicioArtistas();
+        let artista = new Artista();
+        artista.id= uuidv4();
+        artista.nombre = "aaron hernandez";
+        artista.nombreArtistico = "Dream Theather";
+        artista.nacionalidad = "Finlandes";
+        artista.anoDeNacimiento=1999;
+        artista.web="www.dreamtheater.com";
+        artista.fkIdEstatus=1;
+        servicioartistas.registrarArtista(artista); */
 
-
-
-
-    
-  
 
     console.log("2"+__dirname); 
     console.log("corriendo en: "+ip+" "+port);

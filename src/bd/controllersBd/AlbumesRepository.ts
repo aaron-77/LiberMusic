@@ -1,8 +1,8 @@
 import {getConnection,getRepository,getConnectionManager,createConnection} from "typeorm";
-import {Album} from "../../entity/Album";
+import {Album} from "../entity/Album";
 import {AlbumParser} from "../../Parser/AlbumesParser";
-import {Cancion} from "../../entity/Cancion";
-import {Artista} from "../../entity/Artista";
+import {Cancion} from "../entity/Cancion";
+import {Artista} from "../entity/Artista";
 import {v4 as uuidv4} from "uuid";
 export class AlbumesRepository {
 

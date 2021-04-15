@@ -1,5 +1,5 @@
-import { Artista } from "../entity/Artista";
-import {Cancion} from "../entity/Cancion";
+import { Artista } from "../bd/entity/Artista";
+import {Cancion} from "../bd/entity/Cancion";
 
 
 export class CancionParser{

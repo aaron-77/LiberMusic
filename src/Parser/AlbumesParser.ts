@@ -1,4 +1,4 @@
-import {Album} from "../entity/Album";
+import {Album} from "../bd/entity/Album";
 
 
 export class AlbumParser{
