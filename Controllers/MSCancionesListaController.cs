@@ -4,24 +4,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 
 namespace MSListasDeReproduccion.Controllers
 {
-   /* [Route("[controller]")]
+    /*[Route("[controller]")]
     [ApiController]
     public class MSCancionesListaController : ControllerBase
     {
 
-        private libermusiclistasdereproduccionContext dbcontext;
+        private libermusicmusicaContext dbcontext;
         private readonly ILogger<MSCancionesListaController> log;
 
         public MSCancionesListaController()
         {
-            dbcontext = new libermusiclistasdereproduccionContext();
+            dbcontext = new libermusicmusicaContext();
         }
 
 

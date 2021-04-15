@@ -12,18 +12,18 @@ namespace MSListasDeReproduccion.Models
             Canciones = new HashSet<Cancione>();
         }
 
-        public uint Id { get; set; }
-        public uint FkIdArtista { get; set; }
+        public string Id { get; set; }
+        public string FkIdArista { get; set; }
         public string Titulo { get; set; }
         public uint Duracion { get; set; }
         public uint NumeroDeTracks { get; set; }
         public string CompaniaProductora { get; set; }
         public string TipoDeAlbum { get; set; }
         public DateTime? FechaDeLanzamiento { get; set; }
-        public string UrlDePortada { get; set; }
-        public string Estado { get; set; }
+        public uint FkIdEstatus { get; set; }
 
-        public virtual Artista FkIdArtistaNavigation { get; set; }
+        public virtual Artista FkIdAristaNavigation { get; set; }
+        public virtual Estatusderegistrosmusica FkIdEstatusNavigation { get; set; }
         public virtual ICollection<Cancione> Canciones { get; set; }
     }
 }

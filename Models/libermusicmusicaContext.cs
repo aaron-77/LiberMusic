@@ -20,6 +20,9 @@ namespace MSListasDeReproduccion.Models
         public virtual DbSet<Albume> Albumes { get; set; }
         public virtual DbSet<Artista> Artistas { get; set; }
         public virtual DbSet<Cancione> Canciones { get; set; }
+        public virtual DbSet<Cancioneslistasdereproduccion> Cancioneslistasdereproduccions { get; set; }
+        public virtual DbSet<Estatusderegistrosmusica> Estatusderegistrosmusicas { get; set; }
+        public virtual DbSet<Listasdereproduccion> Listasdereproduccions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -36,9 +39,15 @@ namespace MSListasDeReproduccion.Models
             {
                 entity.ToTable("albumes");
 
-                entity.HasIndex(e => e.FkIdArtista, "fk_albumes_artistas1_idx");
+                entity.HasIndex(e => e.FkIdArista, "fk_albumes_artistas1_idx");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.HasIndex(e => e.FkIdEstatus, "fk_albumes_estatusdearchivos1_idx");
+
+                entity.Property(e => e.Id)
+                    .HasColumnType("varchar(200)")
+                    .HasColumnName("id")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
 
                 entity.Property(e => e.CompaniaProductora)
                     .IsRequired()
@@ -51,19 +60,20 @@ namespace MSListasDeReproduccion.Models
                     .HasColumnName("duracion")
                     .HasComment("duracion en segundos");
 
-                entity.Property(e => e.Estado)
-                    .HasColumnType("varchar(20)")
-                    .HasColumnName("estado")
-                    .HasDefaultValueSql("'activo'")
-                    .HasComment("estado del registro (activo,inactivo)")
-                    .HasCharSet("utf8mb4")
-                    .HasCollation("utf8mb4_0900_ai_ci");
-
                 entity.Property(e => e.FechaDeLanzamiento)
                     .HasColumnType("date")
                     .HasColumnName("fechaDeLanzamiento");
 
-                entity.Property(e => e.FkIdArtista).HasColumnName("fkIdArtista");
+                entity.Property(e => e.FkIdArista)
+                    .IsRequired()
+                    .HasColumnType("varchar(200)")
+                    .HasColumnName("fkIdArista")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
+
+                entity.Property(e => e.FkIdEstatus)
+                    .HasColumnName("fkIdEstatus")
+                    .HasDefaultValueSql("'1'");
 
                 entity.Property(e => e.NumeroDeTracks).HasColumnName("numeroDeTracks");
 
@@ -82,37 +92,38 @@ namespace MSListasDeReproduccion.Models
                     .HasCharSet("utf8mb4")
                     .HasCollation("utf8mb4_0900_ai_ci");
 
-                entity.Property(e => e.UrlDePortada)
-                    .HasColumnType("longtext")
-                    .HasColumnName("urlDePortada")
-                    .HasCharSet("utf8mb4")
-                    .HasCollation("utf8mb4_0900_ai_ci");
-
-                entity.HasOne(d => d.FkIdArtistaNavigation)
+                entity.HasOne(d => d.FkIdAristaNavigation)
                     .WithMany(p => p.Albumes)
-                    .HasForeignKey(d => d.FkIdArtista)
+                    .HasForeignKey(d => d.FkIdArista)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_albumes_artistas1");
+
+                entity.HasOne(d => d.FkIdEstatusNavigation)
+                    .WithMany(p => p.Albumes)
+                    .HasForeignKey(d => d.FkIdEstatus)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_albumes_estatusdearchivos1");
             });
 
             modelBuilder.Entity<Artista>(entity =>
             {
                 entity.ToTable("artistas");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.HasIndex(e => e.FkIdEstatus, "fk_artistas_estatusdearchivos1_idx");
 
-                entity.Property(e => e.Estado)
-                    .HasColumnType("varchar(20)")
-                    .HasColumnName("estado")
-                    .HasDefaultValueSql("'activo'")
-                    .HasComment("estatus del registro (activo,inactivo)")
+                entity.Property(e => e.Id)
+                    .HasColumnType("varchar(200)")
+                    .HasColumnName("id")
                     .HasCharSet("utf8mb4")
                     .HasCollation("utf8mb4_0900_ai_ci");
 
-                entity.Property(e => e.FechaDeNacimiento)
-                    .HasColumnType("date")
-                    .HasColumnName("fechaDeNacimiento")
-                    .HasComment("fecha a partir de la cual el artista empezo su carrera");
+                entity.Property(e => e.AnoDeNacimiento)
+                    .HasColumnName("anoDeNacimiento")
+                    .HasComment("aÃ±o a partir de la cual el artista empezo su carrera");
+
+                entity.Property(e => e.FkIdEstatus)
+                    .HasColumnName("fkIdEstatus")
+                    .HasDefaultValueSql("'1'");
 
                 entity.Property(e => e.Nacionalidad)
                     .IsRequired()
@@ -142,6 +153,12 @@ namespace MSListasDeReproduccion.Models
                     .HasColumnName("web")
                     .HasCharSet("utf8mb4")
                     .HasCollation("utf8mb4_0900_ai_ci");
+
+                entity.HasOne(d => d.FkIdEstatusNavigation)
+                    .WithMany(p => p.Artista)
+                    .HasForeignKey(d => d.FkIdEstatus)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_artistas_estatusdearchivos1");
             });
 
             modelBuilder.Entity<Cancione>(entity =>
@@ -150,12 +167,11 @@ namespace MSListasDeReproduccion.Models
 
                 entity.HasIndex(e => e.FkIdAlbum, "fk_canciones_albumes1_idx");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.HasIndex(e => e.FkIdEstatus, "fk_canciones_estatusdearchivos1_idx");
 
-                entity.Property(e => e.CodigoIsrc)
-                    .IsRequired()
-                    .HasColumnType("varchar(12)")
-                    .HasColumnName("codigoIsrc")
+                entity.Property(e => e.Id)
+                    .HasColumnType("varchar(200)")
+                    .HasColumnName("id")
                     .HasCharSet("utf8mb4")
                     .HasCollation("utf8mb4_0900_ai_ci");
 
@@ -163,15 +179,16 @@ namespace MSListasDeReproduccion.Models
 
                 entity.Property(e => e.Duracion).HasColumnName("duracion");
 
-                entity.Property(e => e.Estado)
-                    .HasColumnType("varchar(20)")
-                    .HasColumnName("estado")
-                    .HasDefaultValueSql("'en revision'")
-                    .HasComment("estatus del registro(activo,inactivo,en revision)si esta inactivo debe borrarse fisicamente el archivo de la cancion en el servidor. si esta en revision no puede visualizarse en el catalogo de canciones pero si existe en la bd y su archivo de cancion")
+                entity.Property(e => e.FkIdAlbum)
+                    .IsRequired()
+                    .HasColumnType("varchar(200)")
+                    .HasColumnName("fkIdAlbum")
                     .HasCharSet("utf8mb4")
                     .HasCollation("utf8mb4_0900_ai_ci");
 
-                entity.Property(e => e.FkIdAlbum).HasColumnName("fkIdAlbum");
+                entity.Property(e => e.FkIdEstatus)
+                    .HasColumnName("fkIdEstatus")
+                    .HasDefaultValueSql("'1'");
 
                 entity.Property(e => e.Genero)
                     .IsRequired()
@@ -182,19 +199,10 @@ namespace MSListasDeReproduccion.Models
 
                 entity.Property(e => e.NumeroDeTrack).HasColumnName("numeroDeTrack");
 
-                entity.Property(e => e.TamanoEnMb).HasColumnName("tamanoEnMb");
-
                 entity.Property(e => e.Titulo)
                     .IsRequired()
                     .HasColumnType("varchar(200)")
                     .HasColumnName("titulo")
-                    .HasCharSet("utf8mb4")
-                    .HasCollation("utf8mb4_0900_ai_ci");
-
-                entity.Property(e => e.UrlDeUbicacion)
-                    .IsRequired()
-                    .HasColumnType("longtext")
-                    .HasColumnName("urlDeUbicacion")
                     .HasCharSet("utf8mb4")
                     .HasCollation("utf8mb4_0900_ai_ci");
 
@@ -203,6 +211,120 @@ namespace MSListasDeReproduccion.Models
                     .HasForeignKey(d => d.FkIdAlbum)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_canciones_albumes1");
+
+                entity.HasOne(d => d.FkIdEstatusNavigation)
+                    .WithMany(p => p.Canciones)
+                    .HasForeignKey(d => d.FkIdEstatus)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_canciones_estatusdearchivos1");
+            });
+
+            modelBuilder.Entity<Cancioneslistasdereproduccion>(entity =>
+            {
+                entity.ToTable("cancioneslistasdereproduccion");
+
+                entity.HasIndex(e => e.FkIdCancion, "fk_cancioneslistasdereproduccion_canciones1_idx");
+
+                entity.HasIndex(e => e.FkIdEstatus, "fk_cancioneslistasdereproduccion_estatusdearchivos1_idx");
+
+                entity.HasIndex(e => e.FlIdListaDeReproduccion, "fk_cancioneslistasdereproduccion_listasdereproduccion1_idx");
+
+                entity.Property(e => e.Id)
+                    .HasColumnType("varchar(200)")
+                    .HasColumnName("id")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
+
+                entity.Property(e => e.FkIdCancion)
+                    .IsRequired()
+                    .HasColumnType("varchar(200)")
+                    .HasColumnName("fkIdCancion")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
+
+                entity.Property(e => e.FkIdEstatus)
+                    .HasColumnName("fkIdEstatus")
+                    .HasDefaultValueSql("'1'");
+
+                entity.Property(e => e.FlIdListaDeReproduccion)
+                    .IsRequired()
+                    .HasColumnType("varchar(200)")
+                    .HasColumnName("flIdListaDeReproduccion")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
+
+                entity.HasOne(d => d.FkIdCancionNavigation)
+                    .WithMany(p => p.Cancioneslistasdereproduccions)
+                    .HasForeignKey(d => d.FkIdCancion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_cancioneslistasdereproduccion_canciones1");
+
+                entity.HasOne(d => d.FkIdEstatusNavigation)
+                    .WithMany(p => p.Cancioneslistasdereproduccions)
+                    .HasForeignKey(d => d.FkIdEstatus)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_cancioneslistasdereproduccion_estatusdearchivos1");
+
+                entity.HasOne(d => d.FlIdListaDeReproduccionNavigation)
+                    .WithMany(p => p.Cancioneslistasdereproduccions)
+                    .HasForeignKey(d => d.FlIdListaDeReproduccion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_cancioneslistasdereproduccion_listasdereproduccion1");
+            });
+
+            modelBuilder.Entity<Estatusderegistrosmusica>(entity =>
+            {
+                entity.ToTable("estatusderegistrosmusica");
+
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasColumnName("id");
+
+                entity.Property(e => e.NombreDeEstatus)
+                    .IsRequired()
+                    .HasColumnType("varchar(20)")
+                    .HasColumnName("nombreDeEstatus")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
+            });
+
+            modelBuilder.Entity<Listasdereproduccion>(entity =>
+            {
+                entity.ToTable("listasdereproduccion");
+
+                entity.HasIndex(e => e.FkIdEstatus, "fk_listasdereproduccion_estatusdearchivos1_idx");
+
+                entity.Property(e => e.Id)
+                    .HasColumnType("varchar(200)")
+                    .HasColumnName("id")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
+
+                entity.Property(e => e.FkIdEstatus)
+                    .HasColumnName("fkIdEstatus")
+                    .HasDefaultValueSql("'1'");
+
+                entity.Property(e => e.FkIdUsuario)
+                    .IsRequired()
+                    .HasColumnType("varchar(200)")
+                    .HasColumnName("fkIdUsuario")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasColumnType("varchar(200)")
+                    .HasColumnName("nombre")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
+
+                entity.Property(e => e.NumeroDeTracks).HasColumnName("numeroDeTracks");
+
+                entity.HasOne(d => d.FkIdEstatusNavigation)
+                    .WithMany(p => p.Listasdereproduccions)
+                    .HasForeignKey(d => d.FkIdEstatus)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_listasdereproduccion_estatusdearchivos1");
             });
 
             OnModelCreatingPartial(modelBuilder);
