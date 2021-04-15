@@ -1,5 +1,5 @@
-import { Album } from "../bd/entity/Album";
-import {Artista} from "../bd/entity/Artista";
+import { Album } from "../../bd/entity/Album";
+import {Artista} from "../../bd/entity/Artista";
 import {AlbumParser} from "./AlbumesParser";
 
 

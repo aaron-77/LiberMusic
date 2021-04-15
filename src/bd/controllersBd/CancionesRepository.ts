@@ -1,6 +1,6 @@
 import {getConnection,getRepository,getConnectionManager,createConnection,In} from "typeorm";
 import {Cancion} from "../entity/Cancion";
-import {CancionParser} from "../../Parser/CancionParser";
+import {CancionParser} from "../../Utilities/Parser/CancionParser";
 import {v4 as uuidv4} from "uuid";
 export class CancionesRepository {
 

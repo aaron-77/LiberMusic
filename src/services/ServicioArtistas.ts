@@ -4,7 +4,7 @@ import {Album} from "../bd/entity/Album";
 //import {Cancion} from "../../entity/Cancion";
 import {Artista} from "../bd/entity/Artista";
 import {v4 as uuidv4} from "uuid";
-import {ArtistaParser} from "../Parser/ArtistaParser";
+import {ArtistaParser} from "../Utilities/Parser/ArtistaParser";
 import {ArtistasRepository} from "../bd/controllersBd/ArtistasRepository";
 class ServicioArtistas {
 

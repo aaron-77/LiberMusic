@@ -2,9 +2,9 @@ import "reflect-metadata";
 import {ArtistasRepository} from "./bd/controllersBd/ArtistasRepository"
 import {AlbumesRepository} from "./bd/controllersBd/AlbumesRepository";
 import {CancionesRepository} from "./bd/controllersBd/CancionesRepository";
-import {ArtistaParser} from "./Parser/ArtistaParser";
-import {AlbumParser} from "./Parser/AlbumesParser";
-import {CancionParser} from "./Parser/CancionParser"
+import {ArtistaParser} from "./Utilities/Parser/ArtistaParser";
+import {AlbumParser} from "./Utilities/Parser/AlbumesParser";
+import {CancionParser} from "./Utilities/Parser/CancionParser"
 import {Artista} from "./bd/entity/Artista";
 import * as aplicattion from "./app";
 import {createConnection} from "typeorm";
