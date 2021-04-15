@@ -14,7 +14,7 @@ namespace MSListasDeReproduccion.Controllers
     [ApiController]
     public class MSListasDeReproduccionController : ControllerBase
     {
-       private libermusicmusicaContext dbcontext;
+        private libermusicmusicaContext dbcontext;
         private readonly ILogger<MSListasDeReproduccionController> log;
 
         public MSListasDeReproduccionController()
@@ -26,18 +26,19 @@ namespace MSListasDeReproduccion.Controllers
 
 
         [HttpPost("CrearLista")]
-        public async Task<ActionResult<Listasdereproduccion>> add([FromBody] Listasdereproduccion listaReproduccion) {
+        public async Task<ActionResult<Listasdereproduccion>> add([FromBody] Listasdereproduccion listaReproduccion)
+        {
             if (listaReproduccion == null)
             {
                 return BadRequest("No has introducido datos");
             }
             try
             {
-                
-                    dbcontext.Entry(listaReproduccion).State = EntityState.Added;
-                    await dbcontext.SaveChangesAsync();
-                    return Created("", listaReproduccion);
-             
+
+                dbcontext.Entry(listaReproduccion).State = EntityState.Added;
+                await dbcontext.SaveChangesAsync();
+                return Created("", listaReproduccion);
+
             }
             catch (Exception ex)
             {
@@ -47,22 +48,22 @@ namespace MSListasDeReproduccion.Controllers
 
 
         [HttpGet("buscarLista")]
-        public async Task<ActionResult<Listasdereproduccion>> Search([FromQuery] string nombre = "", [FromQuery] string idUsuario="")
+        public async Task<ActionResult<Listasdereproduccion>> Search([FromQuery] string nombre = "", [FromQuery] string idUsuario = "")
         {
-                          
-                    List<Listasdereproduccion> listas = null;
 
-                    listas = await dbcontext.Listasdereproduccions
-                        .Where(lista => lista.Nombre.Contains(nombre)).Where(lista => lista.FkIdUsuario.Equals(idUsuario)).ToListAsync();
+            List<Listasdereproduccion> listas = null;
 
-                    if (listas == null)
-                    {
-                        return BadRequest();
-                    }
+            listas = await dbcontext.Listasdereproduccions
+                .Where(lista => lista.Nombre.Contains(nombre)).Where(lista => lista.FkIdUsuario.Equals(idUsuario)).ToListAsync();
 
-                    return Ok(listas);
-               
+            if (listas == null)
+            {
+                return BadRequest();
             }
+
+            return Ok(listas);
+
+        }
 
 
         [HttpPut("ActualizarLista")]
@@ -77,7 +78,7 @@ namespace MSListasDeReproduccion.Controllers
             try
             {
                 var milista = dbcontext.Listasdereproduccions.SingleOrDefault(c => c.Id.Equals(lista.Id));
-                milista= lista;
+                milista = lista;
                 await dbcontext.SaveChangesAsync();
 
                 log.LogInformation("Se actualizo la lista: {0}", lista.Nombre);
@@ -93,15 +94,15 @@ namespace MSListasDeReproduccion.Controllers
 
 
         [HttpPut("EliminarCancion")]
-        public async Task<ActionResult<Cancioneslistasdereproduccion>> update([FromBody] string idlista,string idcancion)
+        public async Task<ActionResult<Cancioneslistasdereproduccion>> update([FromBody] string idlista, string idcancion)
         {
-           
+
 
             try
             {
                 var micancionlista = dbcontext.Cancioneslistasdereproduccions.SingleOrDefault(c => c.FkIdCancion.Equals(idcancion) && c.FlIdListaDeReproduccion.Equals(idlista));
                 micancionlista.FkIdEstatus = 2;
-               
+
                 await dbcontext.SaveChangesAsync();
 
                 log.LogInformation("Se actualizo la lista: {0}", idcancion);
@@ -118,7 +119,7 @@ namespace MSListasDeReproduccion.Controllers
 
         //Regresar las caciones solamente.
         [HttpGet("MostrarCanciones")]
-        public async Task<ActionResult<Cancioneslistasdereproduccion>> Search([FromQuery] string idLista="")
+        public async Task<ActionResult<Cancioneslistasdereproduccion>> Search([FromQuery] string idLista = "")
         {
 
             List<Cancioneslistasdereproduccion> canciones = null;
@@ -136,11 +137,37 @@ namespace MSListasDeReproduccion.Controllers
 
 
 
+        [HttpPost("AgregarCancionLista")]
+        public async Task<ActionResult<Cancioneslistasdereproduccion>> add([FromBody] Cancioneslistasdereproduccion cancionLista)
+        {
+            if (cancionLista == null)
+            {
+                return BadRequest("No has introducido datos");
+            }
+            try
+            {
+
+                dbcontext.Entry(cancionLista).State = EntityState.Added;
+                await dbcontext.SaveChangesAsync();
+                return Created("", cancionLista);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al registrarte" + "\n" + ex);
 
 
 
 
 
 
+
+
+
+
+
+
+            }
+        }
     }
 }
