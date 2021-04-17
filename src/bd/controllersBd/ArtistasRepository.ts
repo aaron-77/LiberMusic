@@ -1,22 +1,14 @@
-import {getConnection,getRepository,getConnectionManager,createConnection} from "typeorm";
+import {getConnection,getRepository,getConnectionManager,createConnection, Like} from "typeorm";
 import {Artista} from "../entity/Artista";
 import {Album} from "../entity/Album";
 import {v4 as uuidv4} from "uuid";
 import {validateOrReject} from "class-validator";
-
+import {MensajesManager} from "../../Utilities/MensajesManager/MensajesManager";
 
 export class ArtistasRepository {
 
     public  async  crearArtista(datosartista:Artista):Promise<any>{
-  
-        let resultadoOperacion = {
-             estatus:false,
-             datos:null,
-             mensaje:"",
-             erroresDeGuardado:[],
-             erroresDeValidacion:[]
-         }
-               
+          
         try{
             
             await createConnection();    
@@ -31,37 +23,32 @@ export class ArtistasRepository {
             try{
                 await validateOrReject(artista);
             }catch(excepcionDeValidacion){
-                resultadoOperacion.estatus=false;
-                resultadoOperacion.mensaje="Datos introducidos no validos";
-                resultadoOperacion.erroresDeValidacion.push(excepcionDeValidacion);
-                return resultadoOperacion;
+                
+                return MensajesManager.crearMensajeDeErrorDeValidacion(excepcionDeValidacion);
+            }finally{
+                getConnection().close();
             }
             const user =await getConnection().manager.save(artista);
-            resultadoOperacion.estatus= true;
-            resultadoOperacion.mensaje="Artista registrado con exito";
-            return resultadoOperacion;
+            
+            
         }catch(excepcion){
-            resultadoOperacion.estatus=false;
-            resultadoOperacion.mensaje="Ha ocurrido un error al registrarte";
-            resultadoOperacion.erroresDeGuardado.push(excepcion);
+           
+           return MensajesManager.crearMensajeDeError(excepcion);
+        }finally{
+            getConnection().close();
         } 
-        return resultadoOperacion;
+        return MensajesManager.crearMensajeDeExito("artista registrado con exito");
     }
 
-    public async actualizarArtista (artistaP:Artista):Promise<Artista>{
+    public async actualizarArtista (artistaP:Artista):Promise<any>{
             
-        let resultadoOperacion = {
-            estatus:false,
-            mensaje:"",
-            erroresDeGuardado:[],
-            erroresDeValidacion:[]
-        }
+        
         
         try{
             await createConnection();
             const artista =await getRepository(Artista).findOne(artistaP.id);
             if(artista == null){
-                return null;
+                return MensajesManager.crearMensajeDeErrorDeValidacion(null);
             }
             
             artista.nombre = artistaP.nombre;
@@ -73,49 +60,63 @@ export class ArtistasRepository {
             try{
                 await validateOrReject(artista);
             }catch(excepcionesDeValidacion){
-
+              
+                return MensajesManager.crearMensajeDeErrorDeValidacion(excepcionesDeValidacion);
             }
             await getRepository(Artista).save(artistaP);
-            console.log("artista actualizado exitosamente: "+artistaP.nombre);
-        }catch(excepcion){
-            console.log(excepcion);
-        } 
-
-    }
-
-    public async buscarArtistaPorId(idArtista:string):Promise<Artista>{
-        
-        
-        let result:Artista;
-        try{
-            await createConnection();
-            const artista = await getRepository(Artista).findOneOrFail({where:{id:idArtista}});
-            result = artista;
             
         }catch(excepcion){
-                console.log(excepcion);
-                result = null;
-        }
-        
-        return result;
+          
+            return MensajesManager.crearMensajeDeErrorDeValidacion(excepcion);
+        }finally{
+            getConnection().close();
+        } 
+        return MensajesManager.crearMensajeDeExito("datos modificados con exito")
 
     }
 
-    public async buscarArtistaPorNombre(nombreArtista:string):Promise<Artista>{
+    public async buscarArtistaPorId(idArtista:string):Promise<any>{
+        
+        
+        let artista;
+        try{
+            await createConnection();
+            artista = await getRepository(Artista).findOneOrFail({where:{id:idArtista}});
+            if(artista == (null|| undefined)){
+                return MensajesManager.crearMensajeDeErrorDeValidacion(null);
+            }            
+        }catch(excepcion){
+            
+            return MensajesManager.crearMensajeDeError(excepcion);
+        
+        }finally{
+            getConnection().close();
+        }
+    
+        return MensajesManager.crearMensajeDeExito("consulta exitosa",artista);
+
+    }
+
+    public async buscarArtistaPorNombre(nombreArtista:string):Promise<any>{
         
        
-        let artista = null;
+        let artistas = null;
         
         try{
             await createConnection();
-            artista = await getRepository(Artista).findOneOrFail({where:{nombreArtistico:nombreArtista}});
+            artistas = await getRepository(Artista).findOneOrFail({nombreArtistico:Like("%"+nombreArtista+"%")});
+            if(artistas == null){
+                return MensajesManager.crearMensajeDeErrorDeValidacion(null);
+            }
         }catch(excepcion){
-            console.log(excepcion);
-            artista = null;
+            getConnection().close();
+            return MensajesManager.crearMensajeDeErrorDeValidacion(excepcion);
+        }finally{
+            getConnection().close();
         }
        
        
-        return artista;
+        return MensajesManager.crearMensajeDeExito("consulta realizada con exito",artistas);
 
     }
 

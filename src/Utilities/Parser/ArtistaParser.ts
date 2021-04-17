@@ -22,7 +22,6 @@ export class ArtistaParser{
             });
         }
        
-           
         return artista;
     }
 

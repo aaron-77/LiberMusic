@@ -25,7 +25,7 @@ class ArtistasApi {
     }
     routes(): void {   
         this.router.post('/crear',express.json(),this.registrarArtista); // ?ids=12345...,23426...,63464....
-        this.router.put('/actualizar/:idArtista',express.json() ,this.actualizarArtista);
+        this.router.put('/actualizar',express.json() ,this.actualizarArtista);
         this.router.get('/buscar',express.json() ,this.buscarArtistaPorId);
     }
 

@@ -6,6 +6,7 @@ export class Album extends BaseEntity {
  
     
     @PrimaryColumn("varchar",{length:200})
+    
     id: string;
 
     @Column("varchar",{length:200})

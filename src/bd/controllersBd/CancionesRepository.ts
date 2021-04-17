@@ -1,4 +1,4 @@
-import {getConnection,getRepository,getConnectionManager,createConnection,In} from "typeorm";
+import {getConnection,getRepository,getConnectionManager,createConnection,In,Like} from "typeorm";
 import {Cancion} from "../entity/Cancion";
 import {CancionParser} from "../../Utilities/Parser/CancionParser";
 import {v4 as uuidv4} from "uuid";
@@ -83,7 +83,7 @@ export class CancionesRepository {
         let canciones;
         try{   
             await createConnection();
-            canciones = await getRepository(Cancion).find({where:{titulo:nombreCancion},
+            canciones = await getRepository(Cancion).find({where:{titulo:Like("%"+nombreCancion+"%")},
                                                                   skip:cancionesOmitidas,
                                                                   take:numeroDeCancionesEsperadas
                                                           });

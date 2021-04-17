@@ -1,46 +1,49 @@
-import {getConnection,getRepository,getConnectionManager,createConnection} from "typeorm";
+import {getConnection,getRepository,getConnectionManager,createConnection,} from "typeorm";
 import {Album} from "../entity/Album";
 import {AlbumParser} from "../../Utilities/Parser/AlbumesParser";
 import {Cancion} from "../entity/Cancion";
 import {Artista} from "../entity/Artista";
+import {MensajesManager} from "../../Utilities/MensajesManager/MensajesManager";
 import {v4 as uuidv4} from "uuid";
+import {validateOrReject} from "class-validator";
 export class AlbumesRepository {
 
-    public  async  crearAlbum(datosalbum){
+    public  async  crearAlbum(album:Album):Promise<any>{
   
          
         try{
             await createConnection();
-            
-           let  album =  AlbumParser.jsonToAlbum(datosalbum);
-    
+        
             album.id = uuidv4();
-            album.fkIdArtista = datosalbum.fkIdArtista; 
-            album.titulo = datosalbum.titulo;
-            album.duracion = datosalbum.duracion;
-            album.numeroDeTracks = datosalbum.numeroDeTracks;
-            album.companiaProductora = datosalbum.companiaProductora;
-            album.tipoDeAlbum = datosalbum.tipoDeAlbum;
-            album.fechaDeLanzamiento = datosalbum.fechaDeLanzamiento;
-          
-            if(album.canciones == (undefined|| null))
-            {
-
+            album.fkIdArtista = album.fkIdArtista; 
+            album.titulo = album.titulo;
+            album.duracion = album.duracion;
+            album.numeroDeTracks = album.numeroDeTracks;
+            album.companiaProductora = album.companiaProductora;
+            album.tipoDeAlbum = album.tipoDeAlbum;
+            album.fechaDeLanzamiento = album.fechaDeLanzamiento;
+            album.fkIdEstatus=1;
+            try{
+                validateOrReject(album);
+            }catch(excepcionDeValidacion){
+                return MensajesManager.crearMensajeDeErrorDeValidacion(excepcionDeValidacion);
             }
             const albumRegistrado =await getConnection().manager.save(album);
-            console.log("album guardado exitosamente: "+albumRegistrado.titulo);
+         
         }catch(excepcion){
-            console.log(excepcion);
+           MensajesManager.crearMensajeDeError(excepcion);
         } 
+
+        return MensajesManager.crearMensajeDeExito("album creado con exito",album);
     }
 
-    public async actualizarAlbum (albumP:Album):Promise<Album>{
-            
+    public async actualizarAlbum (albumP:Album):Promise<any>{
+        let album;    
         try{
             await createConnection();
-            const album =await getRepository(Album).findOne(albumP.id);
+         album =await getRepository(Album).findOne(albumP.id);
             if(album == null){
-                return null;
+                return MensajesManager.crearMensajeDeErrorDeValidacion(null);
             }
             album.fkIdArtista = albumP.fkIdArtista; 
             album.titulo = albumP.titulo;
@@ -50,11 +53,17 @@ export class AlbumesRepository {
             album.tipoDeAlbum = albumP.tipoDeAlbum;
             album.fechaDeLanzamiento = albumP.fechaDeLanzamiento;
             album.fkIdEstatus = albumP.fkIdEstatus;
+            try{
+                validateOrReject(album);
+            }catch(excepcionDeValidacion){
+                return MensajesManager.crearMensajeDeErrorDeValidacion(excepcionDeValidacion);
+            }
             await getRepository(Album).save(album);
-            console.log("album actualizado exitosamente: "+albumP.titulo);
+          
         }catch(excepcion){
-            console.log(excepcion);
+            return MensajesManager.crearMensajeDeError(excepcion);
         } 
+        return MensajesManager.crearMensajeDeExito("album creado con exito",album);
     }
 
     public async obtenerAlbumPorId(idAlbum:string):Promise<Album>{
@@ -100,20 +109,6 @@ export class AlbumesRepository {
         return albumesDeArtista;
     }
 
-    public async obtenerCanciones():Promise<Album[]>{
-        await createConnection();
-
-        //let album3 = await getRepository(Album).findOne(3);
-        let artistas = await getRepository(Artista).find({ relations: ["albumes"] });
-        let  album  =await artistas[2].albumes;
-        
-        //let artistaalbum3 = await album3.
-        //let canicon =  await getRepository(Cancion).createQueryBuilder("cancion").leftJoinAndSelect("cancion.album","canciones").where("cancion.id= :id",{id:1}).getOne();
-        //let album = canicon.album;
-        console.log(album);
-        let albumess :Promise<Album[]> ;
-        
-        return albumess;
-    }
+   
 }
 

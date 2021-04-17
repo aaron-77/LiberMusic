@@ -28,8 +28,8 @@ export class Artista extends BaseEntity {
     @Column("int",{nullable:true})
     anoDeNacimiento: number;
 
-    @IsNotEmpty()
     @Column("longtext")
+    @IsNotEmpty()
     @IsFQDN()
     web: string;
     
