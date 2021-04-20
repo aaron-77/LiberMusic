@@ -1,7 +1,7 @@
 import {ListaReproduccion} from "../../bd/entity/ListaReproduccion";
 
 
-export class AlbumParser{
+export class ListaParser{
 
     static jsonToLista(datosLista):ListaReproduccion{
        
