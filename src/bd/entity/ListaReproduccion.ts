@@ -5,18 +5,16 @@ import {Cancion} from "./Cancion";
 export class ListaReproduccion extends BaseEntity {
  
     
-    @PrimaryColumn("varchar",{length:200})
-
-    
+    @PrimaryColumn("varchar",{length:200,nullable:false})
     id: string;
 
-    @Column("varchar",{length:200})
+    @Column("varchar",{length:200,nullable:false})
     fkIdUsuario :string;
     
-    @Column("varchar",{length:200})
+    @Column("varchar",{length:200,nullable:false})
     nombre: string;
 
-    @Column("int")
+    @Column("int",{unsigned:true,nullable:false})
     numeroDeTracks :number;
 
        
@@ -26,12 +24,10 @@ export class ListaReproduccion extends BaseEntity {
                   })
     fkIdEstatus: number;
 
-    /*@ManyToOne((type) => , usuario => usuario.id)
-    artista:Artista;
 
     @OneToMany((type) => Cancion, (cancion) => cancion.id)
-    canciones: ListaReproduccion[];
-    */
+    canciones: Cancion[];
+    
 
    
 }

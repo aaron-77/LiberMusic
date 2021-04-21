@@ -1,4 +1,4 @@
-import {getConnection,getRepository,getConnectionManager,createConnection,} from "typeorm";
+import {getConnection,getRepository,getConnectionManager,createConnection, Like,} from "typeorm";
 import {ListaReproduccion} from "../entity/ListaReproduccion";
 import {ListaParser} from "../../Utilities/Parser/ListaReproduccionParser";
 import {MensajesManager} from "../../Utilities/MensajesManager/MensajesManager";
@@ -23,7 +23,7 @@ export class ListaReproduccionRepository {
 
 
             const cancionRegistrada =await getConnection().manager.save(lista);
-            console.log("cancion guardada exitosamente: "+cancionRegistrada.titulo);
+            console.log("cancion guardada exitosamente: "+cancionRegistrada.nombre);
         }catch(excepcion){
             console.log(excepcion);
         } 
@@ -60,20 +60,18 @@ export class ListaReproduccionRepository {
         }catch(excepcion){
                 console.log(excepcion);
         }
-        return cancion;
+        return lista;
     }
 
     public async obtenerListaPorNombre(nombreLista:string):Promise<ListaReproduccion[]>{
         let listas;
         try{   
             await createConnection();
-            listas = await getRepository(ListaReproduccion).find({where:{nombre:Like("%"+nombreLista+"%")}
-                                                                 
-                                                          });
+            listas = await getRepository(ListaReproduccion).find({where:{nombre:Like("%"+nombreLista+"%")}});
         }catch(excepcion){
                 console.log(excepcion);
         }
-        return canciones;
+        return listas;
     }
 
   

@@ -62,7 +62,7 @@ public async buscarListaReproduccionPorId(idLista){
     let resultadoDeOperacion;
     try{
         let repositorioLista = new ListaReproduccionRepository();
-        resultadoDeOperacion = await repositorioLista.obtenerListaPorId(idLista));
+        resultadoDeOperacion = await repositorioLista.obtenerListaPorId(idLista);
         console.log(resultadoDeOperacion.mensaje);
         console.log(resultadoDeOperacion.datos);
         console.log(resultadoDeOperacion.erroresDeValidacion);

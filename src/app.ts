@@ -4,7 +4,7 @@ var express = require('express');
 import morgan from 'morgan';
 import * as bodyParser from 'body-parser';
 import {artistasApi} from "./api/ArtistasApi";
-import {ListaReproduccionApi} from "./api/ListaReproduccionApi";
+import {listaAPi} from "./api/ListaReproduccionApi";
 import { ListaReproduccion } from "./bd/entity/ListaReproduccion";
 
 
@@ -43,7 +43,7 @@ import { ListaReproduccion } from "./bd/entity/ListaReproduccion";
         this.express.use('/artistas',artistasApi);
         //this.express.use('/albumes',);
         //this.express.use('/canciones', );
-        this.express.use('ListaDeReproduccion', ListaReproduccionApi)
+        this.express.use('/ListaDeReproduccion', listaAPi)
         //this.express.use('/streaming', );
         //this.express.use('*',);
 

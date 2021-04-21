@@ -49,11 +49,15 @@ class ListaReproduccionApi {
 
     async buscarListaPorId(req: any, res: any, nextFunction: NextFunction) {
         try{
+            
             if(req.query.idlista != undefined){
                 await serviciosListas.buscarListaReproduccionPorId(req.query.idlista);
-            }else if(req.query.nombreArtista != undefined){
+            }else if(req.query.nombreLista != undefined){
                 await serviciosListas.buscarListaReproduccionPorNombre(req.query.nombreLista);
             }
+            /*else{
+                res.send('el davis es puto') para mandar al cliente;
+            }*/
         }catch(error){
             console.log(error)
         }
