@@ -4,16 +4,15 @@ import {v4 as uuidv4} from "uuid";
 import {ListaParser} from "../Utilities/Parser/ListaReproduccionParser";
 import {ListaReproduccionRepository} from "../bd/controllersBd/ListaReproduccionRepository";
 
+ class ServiciosListaReproduccion {
 
-class ServiciosListaReproduccion {
 
-
-public async registrarListaReproduccion (artista): Promise<any>{
-    let  artistaParseado = ArtistaParser.jsonToArtista(artista);
+public async registrarListaReproduccion (lista): Promise<any>{
+    let  listaParseado = ListaParser.ListaToJson(lista);
     let resultadoDeOperacion;
     try{
-        let repositorioArtistas = new ArtistasRepository();
-        resultadoDeOperacion = await repositorioArtistas.crearArtista(artistaParseado);
+        let repositorioListas = new ListaReproduccionRepository();
+        resultadoDeOperacion = await repositorioListas.crearLista(listaParseado);
         console.log(resultadoDeOperacion.mensaje);
         console.log(resultadoDeOperacion.erroresDeValidacion);
         console.log(resultadoDeOperacion.erroresDeGuardado);
@@ -24,12 +23,12 @@ public async registrarListaReproduccion (artista): Promise<any>{
    return resultadoDeOperacion;
 }
 
-public async actualizarArtista (artista){
-    let  artistaParseado = ArtistaParser.jsonToArtista(artista);
+public async actualizarListaReproduccion (lista){
+    let  listaParseado = ListaParser.jsonToLista(lista);
     let resultadoDeOperacion;
     try{
-        let repositorioArtistas = new ArtistasRepository();
-        resultadoDeOperacion = await repositorioArtistas.actualizarArtista(artistaParseado);
+        let repositorioLista = new ListaReproduccionRepository();
+        resultadoDeOperacion = await repositorioLista.actualizarLista(listaParseado);
         console.log(resultadoDeOperacion.mensaje);
         console.log(resultadoDeOperacion.erroresDeValidacion);
         console.log(resultadoDeOperacion.erroresDeGuardado);
@@ -41,12 +40,12 @@ public async actualizarArtista (artista){
    
 }
 
-public async buscarArtistaPorId(idArtista){
+public async buscarListaReproduccionPorNombre(nombreLista){
   
     let resultadoDeOperacion;
     try{
-        let repositorioArtistas = new ArtistasRepository();
-        resultadoDeOperacion = await repositorioArtistas.buscarArtistaPorId(idArtista);
+        let repositorioLista = new ListaReproduccionRepository();
+        resultadoDeOperacion = await repositorioLista.obtenerListaPorNombre (nombreLista);
         console.log(resultadoDeOperacion.mensaje);
         console.log(resultadoDeOperacion.datos);
         console.log(resultadoDeOperacion.erroresDeValidacion);
@@ -59,11 +58,11 @@ public async buscarArtistaPorId(idArtista){
 
 }
 
-public async buscarArtistaPorNombre(nombreArtista){
+public async buscarListaReproduccionPorId(idLista){
     let resultadoDeOperacion;
     try{
-        let repositorioArtistas = new ArtistasRepository();
-        resultadoDeOperacion = await repositorioArtistas.buscarArtistaPorNombre(nombreArtista);
+        let repositorioLista = new ListaReproduccionRepository();
+        resultadoDeOperacion = await repositorioLista.obtenerListaPorId(idLista));
         console.log(resultadoDeOperacion.mensaje);
         console.log(resultadoDeOperacion.datos);
         console.log(resultadoDeOperacion.erroresDeValidacion);
@@ -78,3 +77,4 @@ public async buscarArtistaPorNombre(nombreArtista){
 }
 
 }
+export let serviciosListas = new ServiciosListaReproduccion()

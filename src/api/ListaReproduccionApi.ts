@@ -1,6 +1,6 @@
 import { Router, Request, Response,NextFunction,Express } from "express";
 import express from 'express';
-import {servicioArtistas} from '../services/ServicioArtistas';
+import {serviciosListas} from '../services/ServicioListaReproduccion';
 
 
 
@@ -24,13 +24,15 @@ class ListaReproduccionApi {
     routes(): void {   
         this.router.post('/crear',express.json(),this.registrarLista); // ?ids=12345...,23426...,63464....
         this.router.put('/actualizar',express.json() ,this.actualizarArtista);
-        this.router.get('/buscar',express.json() ,this.buscarArtistaPorId);
+        this.router.get('/buscar',express.json() ,this.buscarListaPorId);
+     
+
     }
 
     async registrarLista(req: any, res: any, nextFunction: NextFunction) {
         try {
                   
-            await servicioArtistas.registrarArtista(req.body);
+            await  serviciosListas.registrarListaReproduccion(req.body);
 
         } catch (error) {
             console.log(error);
@@ -39,18 +41,18 @@ class ListaReproduccionApi {
 
     async actualizarArtista(req: any, res: any, nextFunction: NextFunction) {
         try {
-            await servicioArtistas.actualizarArtista(req.body);
+            await serviciosListas.actualizarListaReproduccion(req.body);
         } catch (error) {
             console.log(error);
         }
     }
 
-    async buscarArtistaPorId(req: any, res: any, nextFunction: NextFunction) {
+    async buscarListaPorId(req: any, res: any, nextFunction: NextFunction) {
         try{
-            if(req.query.idArtista != undefined){
-                await servicioArtistas.buscarArtistaPorId(req.query.idArtista);
+            if(req.query.idlista != undefined){
+                await serviciosListas.buscarListaReproduccionPorId(req.query.idlista);
             }else if(req.query.nombreArtista != undefined){
-                await servicioArtistas.buscarArtistaPorNombre(req.query.nombreArtista);
+                await serviciosListas.buscarListaReproduccionPorNombre(req.query.nombreLista);
             }
         }catch(error){
             console.log(error)
@@ -58,6 +60,8 @@ class ListaReproduccionApi {
 
     }
 
+
+
 }
-export let artistasApi = new ArtistasApi().router;
+export let listaAPi = new ListaReproduccionApi().router;
 
