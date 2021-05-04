@@ -6,6 +6,7 @@ import {Artista} from "../bd/entity/Artista";
 import {v4 as uuidv4} from "uuid";
 import {ArtistaParser} from "../Utilities/Parser/ArtistaParser";
 import {ArtistasRepository} from "../bd/controllersBd/ArtistasRepository";
+
 class ServicioArtistas {
 
     public async registrarArtista (artista): Promise<any>{

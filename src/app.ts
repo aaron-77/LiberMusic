@@ -6,6 +6,8 @@ import * as bodyParser from 'body-parser';
 import {artistasApi} from "./api/ArtistasApi";
 import {albumesApi} from "./api/AlbumesApi";
 import {cancionesApi} from "./api/CancionesApi";
+import {listaAPi} from "./api/ListaReproduccionApi";
+import { ListaReproduccion } from "./bd/entity/ListaReproduccion";
 
 
  class App{
@@ -43,7 +45,7 @@ import {cancionesApi} from "./api/CancionesApi";
         this.express.use('/artistas',artistasApi);
         this.express.use('/albumes',albumesApi);
         this.express.use('/canciones',cancionesApi);
-        //this.express.use('listasDeReproduccion',)
+        this.express.use('/ListaDeReproduccion', listaAPi)
         //this.express.use('/streaming', );
         //this.express.use('*',);
 
