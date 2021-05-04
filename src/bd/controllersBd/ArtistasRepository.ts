@@ -26,7 +26,7 @@ export class ArtistasRepository {
                 
                 return MensajesManager.crearMensajeDeErrorDeValidacion(excepcionDeValidacion);
             }finally{
-                getConnection().close();
+                
             }
             const user =await getConnection().manager.save(artista);
             
@@ -41,16 +41,12 @@ export class ArtistasRepository {
     }
 
     public async actualizarArtista (artistaP:Artista):Promise<any>{
-            
-        
-        
         try{
             await createConnection();
             const artista =await getRepository(Artista).findOne(artistaP.id);
             if(artista == null){
                 return MensajesManager.crearMensajeDeErrorDeValidacion(null);
             }
-            
             artista.nombre = artistaP.nombre;
             artista.nombreArtistico = artistaP.nombreArtistico;
             artista.anoDeNacimiento = artistaP.anoDeNacimiento;
@@ -59,14 +55,11 @@ export class ArtistasRepository {
             artista.fkIdEstatus = artistaP.fkIdEstatus;
             try{
                 await validateOrReject(artista);
-            }catch(excepcionesDeValidacion){
-              
+            }catch(excepcionesDeValidacion){ 
                 return MensajesManager.crearMensajeDeErrorDeValidacion(excepcionesDeValidacion);
             }
             await getRepository(Artista).save(artistaP);
-            
         }catch(excepcion){
-          
             return MensajesManager.crearMensajeDeErrorDeValidacion(excepcion);
         }finally{
             getConnection().close();
@@ -101,11 +94,12 @@ export class ArtistasRepository {
         
        
         let artistas = null;
-        
+        let ar = [];
+    
         try{
             await createConnection();
-            artistas = await getRepository(Artista).findOneOrFail({nombreArtistico:Like("%"+nombreArtista+"%")});
-            if(artistas == null){
+            artistas = await getRepository(Artista).find({nombreArtistico:Like("%"+nombreArtista+"%")});
+            if(artistas == null || artistas.length == 0){
                 return MensajesManager.crearMensajeDeErrorDeValidacion(null);
             }
         }catch(excepcion){

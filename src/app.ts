@@ -4,6 +4,8 @@ var express = require('express');
 import morgan from 'morgan';
 import * as bodyParser from 'body-parser';
 import {artistasApi} from "./api/ArtistasApi";
+import {albumesApi} from "./api/AlbumesApi";
+import {cancionesApi} from "./api/CancionesApi";
 
 
  class App{
@@ -39,8 +41,8 @@ import {artistasApi} from "./api/ArtistasApi";
         });
         this.express.use('/',RootRouter);
         this.express.use('/artistas',artistasApi);
-        //this.express.use('/albumes',);
-        //this.express.use('/canciones', );
+        this.express.use('/albumes',albumesApi);
+        this.express.use('/canciones',cancionesApi);
         //this.express.use('listasDeReproduccion',)
         //this.express.use('/streaming', );
         //this.express.use('*',);

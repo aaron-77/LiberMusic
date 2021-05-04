@@ -47,10 +47,7 @@ class ServicioArtistas {
         try{
             let repositorioArtistas = new ArtistasRepository();
             resultadoDeOperacion = await repositorioArtistas.buscarArtistaPorId(idArtista);
-            console.log(resultadoDeOperacion.mensaje);
-            console.log(resultadoDeOperacion.datos);
-            console.log(resultadoDeOperacion.erroresDeValidacion);
-            console.log(resultadoDeOperacion.erroresDeGuardado);
+            console.log(resultadoDeOperacion);
             return resultadoDeOperacion;   
         }catch(errores){
             console.log("errores: "+ errores);

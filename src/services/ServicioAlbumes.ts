@@ -31,9 +31,7 @@ export class ServicioAlbumes {
         try{
             let repositorioAlbum = new AlbumesRepository();
             resultadoDeOperacion = await repositorioAlbum.actualizarAlbum(albumParseado);
-            console.log(resultadoDeOperacion.mensaje);
-            console.log(resultadoDeOperacion.erroresDeValidacion);
-            console.log(resultadoDeOperacion.erroresDeGuardado);
+            console.log("SERVICIO ALBUMES: "+resultadoDeOperacion);
             return resultadoDeOperacion;   
         }catch(errores){
             console.log("errores: "+ errores);
@@ -47,9 +45,10 @@ export class ServicioAlbumes {
         try{
             let repositorioAlbum = new AlbumesRepository();
             resultadoDeOperacion = await repositorioAlbum.obtenerAlbumPorId(idAlbum);
-            console.log(resultadoDeOperacion.mensaje);
-            console.log(resultadoDeOperacion.erroresDeValidacion);
-            console.log(resultadoDeOperacion.erroresDeGuardado);
+            console.log("MENSAJE EN SERVICIO: " +resultadoDeOperacion.mensaje);
+            console.log("DATOS EN SERVICIO: "+ resultadoDeOperacion.datos.titulo);
+            console.log("VALIDACION : "+ resultadoDeOperacion.erroresDeValidacion);
+            console.log("ERRORES :"+resultadoDeOperacion.erroresDeGuardado);
             return resultadoDeOperacion;   
         }catch(errores){
             console.log("errores: "+ errores);
@@ -58,12 +57,13 @@ export class ServicioAlbumes {
 
     }
 
-    public async obtenerAlbumPorNombre(nombreAlbum){
+    public async obtenerAlbumPorNombre(tituloAlbum,resultadosOmitidos = 0,numeroDeResultadosEsperados = 10){
         let resultadoDeOperacion;
         try{
             let repositorioAlbum = new AlbumesRepository();
-            resultadoDeOperacion = await repositorioAlbum.obtenerAlbumPorNombre(nombreAlbum);
+            resultadoDeOperacion = await repositorioAlbum.obtenerAlbumPorNombre(tituloAlbum,resultadosOmitidos,numeroDeResultadosEsperados);
             console.log(resultadoDeOperacion.mensaje);
+            console.log(resultadoDeOperacion.datos);
             console.log(resultadoDeOperacion.erroresDeValidacion);
             console.log(resultadoDeOperacion.erroresDeGuardado);
             return resultadoDeOperacion;   
@@ -73,12 +73,13 @@ export class ServicioAlbumes {
        return resultadoDeOperacion;
     }
 
-    public async obtenerAlbumesPorIdArtista(idArtista){
+    public async obtenerAlbumesPorIdArtista(idArtista,resultadosOmitidos,numeroDeResultadosEsperados){
         let resultadoDeOperacion;
         try{
             let repositorioAlbum = new AlbumesRepository();
-            resultadoDeOperacion = await repositorioAlbum.obtenerAlbumesPorIdArtista(idArtista);
+            resultadoDeOperacion = await repositorioAlbum.obtenerAlbumesPorIdArtista(idArtista,resultadosOmitidos,numeroDeResultadosEsperados);
             console.log(resultadoDeOperacion.mensaje);
+            console.log(resultadoDeOperacion.datos);
             console.log(resultadoDeOperacion.erroresDeValidacion);
             console.log(resultadoDeOperacion.erroresDeGuardado);
             return resultadoDeOperacion;   
@@ -87,7 +88,8 @@ export class ServicioAlbumes {
         }
        return resultadoDeOperacion;
     }
-
-    
 }
+
+export let servicioAlbumes = new ServicioAlbumes();
+
 

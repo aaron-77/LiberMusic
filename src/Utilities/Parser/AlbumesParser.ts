@@ -13,7 +13,7 @@ export class AlbumParser{
         album.numeroDeTracks = albumJson.numeroDeTracks;
         album.companiaProductora = albumJson.companiaProductora;
         album.tipoDeAlbum = albumJson.tipoDeAlbum;
-        album.fechaDeLanzamiento = albumJson.fechaDeLanzamiento;
+        album.anoDeLanzamiento = albumJson.anoDeLanzamiento;
         album.fkIdEstatus = albumJson.fkIdEstatus;
         album.canciones = albumJson.canciones;
         album.artista = albumJson.artista;
@@ -30,7 +30,7 @@ export class AlbumParser{
             numeroDeTracks: album.numeroDeTracks, 
             companiaProductora: album.companiaProductora,
             tipoDeAlbum: album.tipoDeAlbum,
-            fechaDeLanzamiento: album.fechaDeLanzamiento, 
+            anoDeLanzamiento: album.anoDeLanzamiento, 
             fkIfEstatus: album.fkIdEstatus,
             canciones: album.canciones,
             artista :album.artista

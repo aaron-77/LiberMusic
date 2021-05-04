@@ -14,7 +14,6 @@ export class Artista extends BaseEntity {
     @Column("varchar",{length:200
                      ,comment:"nombre real del arista"
                       })
-   
     @Matches("^([a-zA-zñ]+\\s{1,3})+[a-zA-Zñ]+\\s{0,3}$")
     nombre: string;
 
