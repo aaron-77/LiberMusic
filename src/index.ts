@@ -19,7 +19,7 @@ var https = require('https');
 
 let server = http.createServer(app);
 const port = 4001;
-const ip = 'localhost';
+const ip = '192.168.100.51';
 
 server.listen(port, ip, function () {
  

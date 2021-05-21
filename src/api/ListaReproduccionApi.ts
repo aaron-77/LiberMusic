@@ -13,13 +13,9 @@ class ListaReproduccionApi {
  
 
     constructor() {
-     
         this.app = express();
         this.router = Router();
         this.routes();
-       
-
-
     }
     routes(): void {   
         this.router.post('/crear',express.json(),this.registrarLista); // ?ids=12345...,23426...,63464....
@@ -32,7 +28,8 @@ class ListaReproduccionApi {
     async registrarLista(req: any, res: any, nextFunction: NextFunction) {
         try {
                   
-            await  serviciosListas.registrarListaReproduccion(req.body);
+            let respuesta = await  serviciosListas.registrarListaReproduccion(req.body);
+            res.send(respuesta);
 
         } catch (error) {
             console.log(error);
@@ -41,7 +38,8 @@ class ListaReproduccionApi {
 
     async actualizarArtista(req: any, res: any, nextFunction: NextFunction) {
         try {
-            await serviciosListas.actualizarListaReproduccion(req.body);
+            let respuesta = await serviciosListas.actualizarListaReproduccion(req.body);
+            res.send(respuesta);
         } catch (error) {
             console.log(error);
         }
@@ -51,9 +49,11 @@ class ListaReproduccionApi {
         try{
             
             if(req.query.idlista != undefined){
-                await serviciosListas.buscarListaReproduccionPorId(req.query.idlista);
+                let respuesta = await serviciosListas.buscarListaReproduccionPorId(req.query.idlista);
+                res.send(respuesta);
             }else if(req.query.nombreLista != undefined){
-                await serviciosListas.buscarListaReproduccionPorNombre(req.query.nombreLista);
+               let respuesta = await serviciosListas.buscarListaReproduccionPorNombre(req.query.nombreLista);
+               res.send(respuesta);
             }
             /*else{
                 res.send('el davis es puto') para mandar al cliente;
