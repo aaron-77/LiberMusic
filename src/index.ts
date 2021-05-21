@@ -19,9 +19,9 @@ var https = require('https');
 
 let server = http.createServer(app);
 const port = 4001;
-const ip = '192.168.100.51';
 
-server.listen(port, ip, function () {
+
+server.listen(port, function () {
  
     let artistaRepository = new ArtistasRepository();
     let albumRepository = new AlbumesRepository();
@@ -195,7 +195,7 @@ let artistaJsonUpdate = {
 
 
     console.log("2"+__dirname); 
-    console.log("corriendo en: "+ip+" "+port);
+    console.log("corriendo en:  "+port);
     
 });
 
